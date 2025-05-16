@@ -18,6 +18,7 @@ class SearchViewModel: ObservableObject {
     
     // Traveler settings
     @Published var adultsCount: Int = 1
+    @Published var childrenCount: Int = 0 // New property for children count
     @Published var travelClass: TravelClass = .economy
     @Published var directFlightsOnly: Bool = false
     
@@ -107,6 +108,20 @@ class SearchViewModel: ObservableObject {
         return dateFormatter.string(from: date)
     }
     
+    // MARK: - Passenger and Class Management
+    
+    // Format passenger and class info for display
+    func formatPassengerAndClassInfo() -> String {
+        var text = "\(adultsCount) Adult\(adultsCount > 1 ? "s" : "")"
+        
+        if childrenCount > 0 {
+            text += ", \(childrenCount) Child\(childrenCount > 1 ? "ren" : "")"
+        }
+        
+        text += " - \(travelClass.rawValue)"
+        return text
+    }
+    
     // MARK: - Search
     
     func search() {
@@ -147,7 +162,7 @@ class SearchViewModel: ObservableObject {
         }
     }
     
-    // Add this method to SearchViewModel
+    // Handle location selection from location sheet
     func handleLocationSelection(_ location: AutocompleteItem) {
         if tripType == .multiCity {
             // Update for multi-city

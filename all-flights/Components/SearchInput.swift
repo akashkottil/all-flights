@@ -4,6 +4,9 @@ struct SearchInput: View {
     @StateObject private var viewModel = SearchViewModel()
     @Namespace private var animation
     
+    // State to control bottom sheets
+    @State private var showPassengersAndClassSheet = false
+    
     var body: some View {
         VStack(spacing: 0) {
             // Trip type selector
@@ -18,20 +21,28 @@ struct SearchInput: View {
             
             Divider().padding(.horizontal, 20)
             
-            // Passenger and class selector
+            // Passenger and class selector - Tappable to open bottom sheet
             HStack {
                 Image("profileIcon")
                     .foregroundColor(.black)
                     .frame(width: 24)
                 
-                Text("\(viewModel.adultsCount) Adult - \(viewModel.travelClass.rawValue)")
+                Text("\(viewModel.adultsCount) Adult\(viewModel.adultsCount > 1 ? "s" : "")\(viewModel.childrenCount > 0 ? ", \(viewModel.childrenCount) Child\(viewModel.childrenCount > 1 ? "ren" : "")" : "") - \(viewModel.travelClass.rawValue)")
                     .font(.subheadline)
                     .foregroundColor(.black)
                 
                 Spacer()
+                
+                Image(systemName: "chevron.right")
+                    .foregroundColor(.gray)
+                    .font(.caption)
             }
             .padding()
             .background(Color.white)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                showPassengersAndClassSheet = true
+            }
             
             Spacer()
             
@@ -71,7 +82,7 @@ struct SearchInput: View {
                 .stroke(Color.orange, lineWidth: 1)
         )
         .padding()
-        // In the SearchInput.swift file, update the sheet presentation:
+        // Location sheet
         .sheet(isPresented: $viewModel.isLocationSheetOpen) {
             LocationSheet(
                 isOrigin: viewModel.isEditingOrigin,
@@ -79,6 +90,11 @@ struct SearchInput: View {
                     viewModel.handleLocationSelection(location)
                 }
             )
+        }
+        // Passengers and Class bottom sheet
+        .sheet(isPresented: $showPassengersAndClassSheet) {
+            PassengersAndClassSelector(viewModel: viewModel)
+                .edgesIgnoringSafeArea(.all)
         }
     }
 }
