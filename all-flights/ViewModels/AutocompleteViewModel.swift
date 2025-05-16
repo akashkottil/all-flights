@@ -1,10 +1,11 @@
-
 import Foundation
 import Combine
 
 class AutocompleteViewModel: ObservableObject {
     @Published var searchText = ""
     @Published var results: [AutocompleteItem] = []
+    @Published var isLoading = false
+    @Published var error: String? = nil
 
     private var cancellables = Set<AnyCancellable>()
 
@@ -35,19 +36,30 @@ class AutocompleteViewModel: ObservableObject {
             print("Invalid URL")
             return
         }
-
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            if let data = data {
+        
+        isLoading = true
+        URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                
+                if let error = error {
+                    self?.error = error.localizedDescription
+                    print("Network error:", error)
+                    return
+                }
+                
+                guard let data = data else {
+                    self?.error = "No data received"
+                    return
+                }
+                
                 do {
                     let decoded = try JSONDecoder().decode(AutocompleteResponse.self, from: data)
-                    DispatchQueue.main.async {
-                        self.results = decoded.data
-                    }
+                    self?.results = decoded.data
                 } catch {
+                    self?.error = error.localizedDescription
                     print("Decoding error:", error)
                 }
-            } else if let error = error {
-                print("Network error:", error)
             }
         }.resume()
     }

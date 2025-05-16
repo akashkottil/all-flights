@@ -123,7 +123,7 @@ struct HomeView: View {
 //            .navigationDestination(isPresented: $showResults) {
 //                ResultScreen()
 //            }.scrollIndicators(.hidden)
-        }
+        }.scrollIndicators(.hidden)
     }
 }
 
