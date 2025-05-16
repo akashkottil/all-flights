@@ -1,0 +1,47 @@
+import SwiftUI
+
+struct CheapFlights: View {
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 16) {
+                ForEach(0..<5, id: \.self) { _ in
+                    VStack(alignment: .leading, spacing: 8) {
+                        Image("cityImage")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(height: 120)
+                            .cornerRadius(10)
+                        
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("New York")
+                                .font(.subheadline)
+                                .foregroundColor(.black)
+                                .fontWeight(.medium)
+                            
+                            Text("Sat, 7 Jun")
+                                .font(.caption)
+                                .foregroundColor(.gray)
+                            
+                            Text("₹120")
+                                .font( .title2)
+                                .fontWeight(.bold)
+                        }
+                        .padding(.horizontal, 12)
+                        .padding(.bottom, 12)
+                    }
+                    
+                    .background(Color.white)
+                    .cornerRadius(20)
+                    .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
+                }
+                .frame(width: 150)
+                
+            }
+            .padding(.horizontal)
+        }
+    }
+}
+
+#Preview {
+    CheapFlights()
+}
