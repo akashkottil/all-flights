@@ -14,21 +14,21 @@ struct SingleTripView: View {
                 action: { viewModel.openLocationSheet(isOrigin: true) }
             )
             
-            Divider().padding(.horizontal, 20)
-                .overlay(
-                    // Swap button for return trips
-                    Button(action: {
-                        viewModel.swapOriginAndDestination()
-                    }) {
-                        Image(systemName: "arrow.up.arrow.down")
-                            .foregroundColor(.blue)
-                            .padding(8)
-                            .background(Circle().fill(Color.white))
-                            .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 1)
-                    }
-                    .offset(y: -2), // Position slightly above the divider
-                    alignment: .center
-                )
+            Divider().padding(.leading, 50)
+//                .overlay(
+//                    // Swap button for return trips
+//                    Button(action: {
+//                        viewModel.swapOriginAndDestination()
+//                    }) {
+//                        Image(systemName: "arrow.up.arrow.down")
+//                            .foregroundColor(.blue)
+//                            .padding(8)
+//                            .background(Circle().fill(Color.white))
+//                            .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 1)
+//                    }
+//                    .offset(y: -2), // Position slightly above the divider
+//                    alignment: .center
+//                )
             
             if viewModel.tripType == .returnTrip {
                 // Destination location selector
@@ -40,7 +40,7 @@ struct SingleTripView: View {
                     action: { viewModel.openLocationSheet(isOrigin: false) }
                 )
                 
-                Divider().padding(.horizontal, 20)
+                Divider().padding(.leading, 50)
             }
             
             // Date selector
@@ -51,11 +51,11 @@ struct SingleTripView: View {
                 
                 if viewModel.tripType == .returnTrip {
                     Text(viewModel.formatDateRange())
-                        .font(.subheadline)
+                        .font(.system(size: 14))
                         .foregroundColor(.black)
                 } else {
                     Text(viewModel.formatSingleDate(viewModel.startDate))
-                        .font(.subheadline)
+                        .font(.system(size: 14))
                         .foregroundColor(.black)
                 }
                 

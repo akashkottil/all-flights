@@ -14,14 +14,15 @@ struct LocationItem: View {
                     .foregroundColor(.black)
                     .frame(width: 24)
                 
-                VStack(alignment: .leading) {
+                HStack() {
                     Text(code)
-                        .font(.headline)
+                        .font(.system(size: 14))
+                        .fontWeight(.bold)
                         .foregroundColor(.black)
-                    
                     Text(city)
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
+                        .font(.system(size: 14))
+                        .fontWeight(.medium)
+                        .foregroundColor(.black)
                 }
                 
                 Spacer()

@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct SearchInput: View {
     @StateObject private var viewModel = SearchViewModel()
@@ -19,7 +20,7 @@ struct SearchInput: View {
                 SingleTripView(viewModel: viewModel)
             }
             
-            Divider().padding(.horizontal, 20)
+            Divider().padding(.leading, 50)
             
             // Passenger and class selector - Tappable to open bottom sheet
             HStack {
@@ -32,48 +33,50 @@ struct SearchInput: View {
                     .foregroundColor(.black)
                 
                 Spacer()
-                
-                Image(systemName: "chevron.right")
-                    .foregroundColor(.gray)
-                    .font(.caption)
             }
             .padding()
             .background(Color.white)
             .contentShape(Rectangle())
             .onTapGesture {
+                HapticManager.shared.selectionFeedback() // Added haptic feedback
                 showPassengersAndClassSheet = true
             }
             
             Spacer()
             
-            // Direct flights toggle
-            HStack {
-                Text("Direct flights only")
-                    .font(.subheadline)
-                    .foregroundColor(.black)
-                
-                Spacer()
-                
-                Toggle("", isOn: $viewModel.directFlightsOnly)
-                    .labelsHidden()
-                    .toggleStyle(SwitchToggleStyle(tint: .blue))
-            }
-            .padding(.horizontal)
-            
             // Search button
             Button(action: {
+                HapticManager.shared.impactFeedback(style: .medium) // Added haptic feedback
                 viewModel.search()
             }) {
                 Text("Search Flights")
-                    .font(.headline)
-                    .fontWeight(.semibold)
+                    .font(.system(size: 18))
+                    .fontWeight(.bold)
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
                     .padding()
-                    .background(Color.orange)
+                    .background(Color("AppSecondaryColor"))
                     .cornerRadius(10)
             }
+            .padding(.horizontal, 15)
+            
+            // Direct flights toggle with haptic feedback
+            HStack {
+                Text("Direct flights only")
+                    .font(.system(size: 13))
+                    .foregroundColor(.black)
+                
+                Toggle("", isOn: $viewModel.directFlightsOnly.onChange { _ in
+                    HapticManager.shared.impactFeedback(style: .light) // Added haptic feedback for toggle
+                })
+                .labelsHidden()
+                .toggleStyle(SwitchToggleStyle(tint: .blue))
+                .scaleEffect(0.8)
+                
+                Spacer()
+            }
             .padding()
+            .padding(.horizontal, 5)
         }
         .background(Color.white)
         .cornerRadius(20)
@@ -87,6 +90,7 @@ struct SearchInput: View {
             LocationSheet(
                 isOrigin: viewModel.isEditingOrigin,
                 onLocationSelected: { location in
+                    HapticManager.shared.selectionFeedback() // Added haptic feedback
                     viewModel.handleLocationSelection(location)
                 }
             )
@@ -96,6 +100,47 @@ struct SearchInput: View {
             PassengersAndClassSelector(viewModel: viewModel)
                 .edgesIgnoringSafeArea(.all)
         }
+    }
+}
+
+// Extension to add onChange to Binding
+extension Binding {
+    func onChange(_ handler: @escaping (Value) -> Void) -> Binding<Value> {
+        Binding(
+            get: { self.wrappedValue },
+            set: { newValue in
+                self.wrappedValue = newValue
+                handler(newValue)
+            }
+        )
+    }
+}
+
+// Singleton class to manage haptic feedback
+class HapticManager {
+    static let shared = HapticManager()
+    
+    private init() {}
+    
+    // Impact feedback for buttons and toggles
+    func impactFeedback(style: UIImpactFeedbackGenerator.FeedbackStyle) {
+        let generator = UIImpactFeedbackGenerator(style: style)
+        generator.prepare()
+        generator.impactOccurred()
+    }
+    
+    // Selection feedback for when something is selected
+    func selectionFeedback() {
+        let generator = UISelectionFeedbackGenerator()
+        generator.prepare()
+        generator.selectionChanged()
+    }
+    
+    // Notification feedback for success, warning, or errors
+    func notificationFeedback(type: UINotificationFeedbackGenerator.FeedbackType) {
+        let generator = UINotificationFeedbackGenerator()
+        generator.prepare()
+        generator.notificationOccurred(type)
     }
 }
 

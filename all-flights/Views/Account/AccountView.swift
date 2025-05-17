@@ -1,210 +1,190 @@
 import SwiftUI
 
-struct AccountView:View {
-    @Environment(\.dismiss) private var dismiss
+// MARK: - Reusable Components
+struct SectionTitle: View {
+    let text: String
+    
     var body: some View {
-        NavigationStack{
-            ScrollView{
-                VStack{
-                    HStack{
+        Text(text)
+            .font(.system(size: 18))
+            .fontWeight(.bold)
+            .padding(.vertical, 5)
+    }
+}
+
+struct SettingCard: View {
+    let title: String
+    let subtitle: String
+    var icon: Image? = nil
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                    
+                    HStack {
+                        icon
+                            .frame(width: 16, height: 12)
+                        Text(subtitle)
+                            .font(.system(size: 14))
+                            .fontWeight(.medium)
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
+                }
+                Spacer()
+                Image("RightArrow")
+            }
+            .padding(.vertical, 10)
+            .padding(.horizontal, 20)
+            .background(Color.white)
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke(Color.gray, lineWidth: 1)
+            )
+            .cornerRadius(10)
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+struct LegalInfoItem: View {
+    let title: String
+    let action: () -> Void
+    
+    var body: some View {
+        Button(action: action) {
+            HStack {
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .font(.system(size: 16))
+                        .fontWeight(.semibold)
+                    Spacer()
+                }
+                Spacer()
+                Image("RightArrow")
+                    
+            }
+        }
+        .buttonStyle(PlainButtonStyle())
+    }
+}
+
+// MARK: - Optimized AccountView
+struct AccountView: View {
+    @Environment(\.dismiss) private var dismiss
+    
+    // Legal items data for reusability
+    private let legalItems = [
+        "Request a feature",
+        "Contact us",
+        "About us",
+        "Rate our app"
+    ]
+    
+    var body: some View {
+        NavigationStack {
+            ScrollView {
+                VStack {
+                    // Header
+                    HStack {
                         Button(action: {
-                                                    // This will navigate back to the previous screen
-                                                    dismiss()
-                                                }) {
-                                                    Image("BackIcon")
-                                                }
+                            dismiss()
+                        }) {
+                            Image("BackIcon")
+                        }
                         Spacer()
                         Text("Account")
                             .font(.title2)
                             .fontWeight(.semibold)
-                            .padding(.trailing,30)
+                            .padding(.trailing, 30)
                         Spacer()
                     }
-//                    header ends
                     
                     Divider()
                     
-                    VStack(alignment:.leading, spacing: 15){
-                        VStack(alignment: .leading){
+                    VStack(alignment: .leading, spacing: 15) {
+                        // Login section
+                        VStack(alignment: .leading) {
                             Text("Ready for Takeoff? ")
-                                .font(.title)
+                                .font(.system(size: 22))
                                 .fontWeight(.bold)
                             Text("Log In Now")
-                                .font(.title)
+                                .font(.system(size: 22))
                                 .fontWeight(.bold)
                         }
+                        
                         Text("Access your profile, manage settings, and view personalized features.")
-                            .font(.title3)
+                            .font(.system(size: 14))
+                            .fontWeight(.semibold)
                         Button(action: {}) {
                             Text("Login")
-                                .font(.title2)
-                                .fontWeight(.bold)
+                                .font(.system(size: 14))
+                                .fontWeight(.semibold)
                                 .foregroundColor(.white)
-                                .padding(.vertical,10)
-                                .padding(.horizontal,20)
+                                .padding(.vertical, 10)
+                                .padding(.horizontal, 20)
                                 .background(Color("buttonBlue"))
                                 .cornerRadius(10)
                         }
                         
-                        VStack(alignment: .leading){
-                            Text("App Settings")
-                                .font(.title)
-                                .fontWeight(.semibold)
+                        // App Settings section
+                        SectionTitle(text: "App Settings")
+                        
+                        SettingCard(
+                            title: "Region",
+                            subtitle: "India",
+                            icon: Image("flag"),
+                            action: {}
+                        )
+                        
+                        SettingCard(
+                            title: "Currency",
+                            subtitle: "India",
+                            action: {}
+                        )
+                        
+                        SettingCard(
+                            title: "Display",
+                            subtitle: "Light mode",
+                            action: {}
+                        )
+                        
+                        // Legal and Info section
+                        SectionTitle(text: "Legal and Info")
+                        
+                        VStack(spacing: 10) {
+                            ForEach(legalItems, id: \.self) { item in
+                                LegalInfoItem(title: item, action: {})
                                 
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("Region")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                    HStack {
-                                        Image("flag")
-                                        Text("India")
-                                    }
-                                    Spacer()
-                                }
-                                Spacer()
-                                Image("RightArrow")
-                            }
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 20)
-                            .background(Color.white) // Optional: background color
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                            .cornerRadius(10)
-                            
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("Currency")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                    HStack {
-                                        
-                                        Text("India")
-                                    }
-                                    Spacer()
-                                }
-                                Spacer()
-                                Image("RightArrow")
-                            }
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 20)
-                            .background(Color.white) // Optional: background color
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                            .cornerRadius(10)
-                            
-                            
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text("Display")
-                                        .font(.title3)
-                                        .fontWeight(.semibold)
-                                    HStack {
-                                        
-                                        Text("Light mode")
-                                    }
-                                    Spacer()
-                                }
-                                Spacer()
-                                Image("RightArrow")
-                            }
-                            .padding(.vertical, 10)
-                            .padding(.horizontal, 20)
-                            .background(Color.white) // Optional: background color
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                            .cornerRadius(10)
-
-                            VStack(alignment: .leading){
-                                Text("Legal and Info")
-                                    .font(.title)
-                                    .fontWeight(.semibold)
-                                VStack(spacing:10){
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text("Request a feature")
-                                                .font(.title3)
-                                                .fontWeight(.semibold)
-                                            
-                                            Spacer()
-                                        }
-                                        Spacer()
-                                        Image("RightArrow")
-                                        
-                                    }
+                                if item != legalItems.last {
                                     Divider()
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text("Contact us")
-                                                .font(.title3)
-                                                .fontWeight(.semibold)
-                                            
-                                            Spacer()
-                                        }
-                                        Spacer()
-                                        Image("RightArrow")
-                                        
-                                    }
-                                    Divider()
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text("About us")
-                                                .font(.title3)
-                                                .fontWeight(.semibold)
-                                            
-                                            Spacer()
-                                        }
-                                        Spacer()
-                                        Image("RightArrow")
-                                        
-                                    }
-                                    Divider()
-                                    HStack {
-                                        VStack(alignment: .leading) {
-                                            Text("Rate our app")
-                                                .font(.title3)
-                                                .fontWeight(.semibold)
-                                            
-                                            Spacer()
-                                        }
-                                        Spacer()
-                                        Image("RightArrow")
-                                        
-                                    }
-                                    
-                                }.padding(.vertical, 10)
-                                    .padding(.horizontal, 20)
-                                    .background(Color.white) // Optional: background color
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .stroke(Color.gray, lineWidth: 1)
-                                    )
-                                    .cornerRadius(10)
-                                
-                                
-                                
-                                
+                                }
                             }
-                            
                         }
+                        .padding(.vertical, 10)
+                        .padding(.horizontal, 20)
+                        .background(Color.white)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(Color.gray, lineWidth: 1)
+                        )
+                        .cornerRadius(10)
                     }
-                    .padding(.top,20)
-                    
+                    .padding(.top, 20)
                 }
                 .padding()
-                
-            }.scrollIndicators(.hidden)
+            }
+            .scrollIndicators(.hidden)
+            .navigationBarBackButtonHidden(true)
         }
     }
 }
 
-
-#Preview {
+#Preview{
     AccountView()
 }

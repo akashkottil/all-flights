@@ -11,8 +11,10 @@ struct TripTypeSelector: View {
                     viewModel.selectTripType(type)
                 }) {
                     Text(type.rawValue)
-                        .padding(.vertical, 10)
-                        .padding(.horizontal, 15)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 22)
+                        .frame(minWidth: 80)
+                        .font(.system(size: 13))
                         .background(
                             ZStack {
                                 if viewModel.tripType == type {
@@ -22,15 +24,17 @@ struct TripTypeSelector: View {
                                 }
                             }
                         )
-                        .foregroundColor(viewModel.tripType == type ? Color.blue : Color.black.opacity(0.6))
+                        .foregroundColor(viewModel.tripType == type ? Color("AppPrimaryColor") : Color.black)
+                        .fontWeight(.medium)
                 }
             }
         }
-        .padding(.vertical, 8)
-        .background(Color.gray.opacity(0.1))
-        .clipShape(Capsule())
-        .padding(.horizontal, 25) // Increased horizontal padding
-        .padding(.top, 10)
-        .padding(.horizontal, 30)
+        .padding(.vertical, 6) // Slightly reduced vertical padding
+                .padding(.horizontal, 6) // Add inner padding to prevent touching edges
+                .background(Color.gray.opacity(0.1))
+                .clipShape(Capsule())
+                .frame(maxWidth: .infinity) // Allow container to expand
+                .padding(.horizontal, 16) // Outer horizontal padding
+                .padding(.top, 10)
     }
 }

@@ -56,20 +56,20 @@ struct MultiCityView: View {
             )
             
             Divider().padding(.horizontal, 20)
-                .overlay(
-                    // Swap button for multi-city
-                    Button(action: {
-                        viewModel.swapOriginAndDestination(for: index)
-                    }) {
-                        Image(systemName: "arrow.up.arrow.down")
-                            .foregroundColor(.blue)
-                            .padding(8)
-                            .background(Circle().fill(Color.white))
-                            .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 1)
-                    }
-                    .offset(y: -2), // Position slightly above the divider
-                    alignment: .center
-                )
+//                .overlay(
+//                    // Swap button for multi-city
+//                    Button(action: {
+//                        viewModel.swapOriginAndDestination(for: index)
+//                    }) {
+//                        Image(systemName: "arrow.up.arrow.down")
+//                            .foregroundColor(.blue)
+//                            .padding(8)
+//                            .background(Circle().fill(Color.white))
+//                            .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 1)
+//                    }
+//                    .offset(y: -2), // Position slightly above the divider
+//                    alignment: .center
+//                )
             
             // Destination
             LocationItem(

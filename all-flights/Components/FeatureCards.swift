@@ -15,24 +15,24 @@ struct FeatureCards: View {
                     
                     Image("trackFlight")
                     Text("Track")
-                        .font(.title2)
+                        .font(.system(size: 16))
                         .fontWeight(.bold)
-                        .foregroundColor(Color("PrimaryColor"))
+                        .foregroundColor(Color("AppPrimaryColor"))
                     Text("yout Flights")
-                        .font(.title3)
+                        .font(.system(size: 16))
                         .fontWeight(.medium)
-                        .foregroundColor(Color("PrimaryColor"))
+                        .foregroundColor(Color("AppPrimaryColor"))
                 }
                 .padding(.leading,30)
                 Spacer()
                 
             }
-            .frame(width: 175, height: 150)
+            .frame(width: 180, height: 118)
             .background(Color.blue.opacity(0.06))
             .cornerRadius(30)
             .overlay(
                 RoundedRectangle(cornerRadius: 30)
-                    .stroke(Color("PrimaryColor"), lineWidth: 1)
+                    .stroke(Color("AppPrimaryColor"), lineWidth: 1)
             )
             Spacer()
             HStack (){
@@ -40,24 +40,24 @@ struct FeatureCards: View {
                     
                     Image("exploreFlight")
                     Text("Track")
-                        .font(.title2)
+                        .font(.system(size: 16))
                         .fontWeight(.bold)
-                        .foregroundColor(Color("PrimaryColor"))
+                        .foregroundColor(Color("AppPrimaryColor"))
                     Text("yout Flights")
-                        .font(.title3)
+                        .font(.system(size: 16))
                         .fontWeight(.medium)
-                        .foregroundColor(Color("PrimaryColor"))
+                        .foregroundColor(Color("AppPrimaryColor"))
                 }
                 .padding(.leading,30)
                 Spacer()
                 
             }
-            .frame(width: 175, height: 150)
+            .frame(width: 180, height: 118)
             .background(Color.blue.opacity(0.06))
             .cornerRadius(30)
             .overlay(
                 RoundedRectangle(cornerRadius: 30)
-                    .stroke(Color("PrimaryColor"), lineWidth: 1)
+                    .stroke(Color("AppPrimaryColor"), lineWidth: 1)
             )
         }
         .padding()

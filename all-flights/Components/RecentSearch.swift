@@ -7,23 +7,30 @@ struct RecentSearch: View {
                 ForEach(0..<5, id: \.self) { _ in
                     VStack(alignment: .leading) {
                         Text("COK - LON")
-                            .font(.title3)
+                            .font(.system(size: 16))
                             .fontWeight(.bold)
                         HStack {
                             Text("Economy")
-                            Text("3 Peoples")
+                            HStack{
+                                
+                            }
+                            .frame(width: 6 , height:6)
+                            .background(Color.gray.opacity(0.6))
+                            .cornerRadius(100)
+                            Text("3 People")
                         }
-                        .foregroundColor(.gray)
+                        .foregroundColor(Color.gray.opacity(0.8))
                         .fontWeight(.medium)
+                        .font(.system(size: 14))
                     }
                     .padding()
                     .background(Color.white)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
-                            .stroke(Color.gray, lineWidth: 2)
+                            .stroke(Color.gray.opacity(0.5), lineWidth: 2)
                     )
                     .cornerRadius(10)
-                    .shadow(radius: 2) // Optional: adds nice depth
+                    
                 }
             }
             .padding()

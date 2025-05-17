@@ -12,7 +12,7 @@ struct Result: View {
             ScrollView{
                 ZStack{
                     // Background Gradient
-                     Color("PrimaryColor")
+                     Color("AppPrimaryColor")
                     .frame(height: UIScreen.main.bounds.height * 0.2)
                     .ignoresSafeArea()
                 }

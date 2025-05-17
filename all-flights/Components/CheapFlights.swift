@@ -14,15 +14,15 @@ struct CheapFlights: View {
                         
                         VStack(alignment: .leading, spacing: 4) {
                             Text("New York")
-                                .font(.subheadline)
+                                .font(.system(size: 13))
                                 .foregroundColor(.black)
                                 .fontWeight(.medium)
                             
                             Text("Sat, 7 Jun")
-                                .font(.caption)
+                                .font(.system(size: 12))
                                 .foregroundColor(.gray)
-                            
-                            Text("₹120")
+                                .fontWeight(.medium)
+                            Text("₹ 2,546")
                                 .font( .title2)
                                 .fontWeight(.bold)
                         }
