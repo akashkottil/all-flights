@@ -33,41 +33,68 @@ struct CollapsibleSearchInput: View {
             .matchedGeometryEffect(id: "searchContainer", in: animation)
     }
     
+    
+    // First, define a custom shape for asymmetric corner radii
+    struct CustomRoundedRectangle: Shape {
+        var cornerRadius: CGFloat
+        var corners: UIRectCorner
+        
+        func path(in rect: CGRect) -> Path {
+            let path = UIBezierPath(roundedRect: rect,
+                                   byRoundingCorners: corners,
+                                   cornerRadii: CGSize(width: cornerRadius, height: cornerRadius))
+            return Path(path.cgPath)
+        }
+    }
+    
+    
     private var collapsedView: some View {
         HStack {
             // Route info with icons
-            HStack(spacing: 4) {
-                Text("\(viewModel.originCode) - \(viewModel.destinationCode)")
-                    .matchedGeometryEffect(id: "routeText", in: animation)
-                    .font(.system(size: 16, weight: .medium))
-                
-                Text("· \(viewModel.formatTripDate())")
-                    .matchedGeometryEffect(id: "dateText", in: animation)
-                    .font(.system(size: 14))
-                    .foregroundColor(.gray)
-            }
-            .padding(.leading, 10)
-            .padding(.vertical, 5)
-            .matchedGeometryEffect(id: "leftContent", in: animation)
-
-            Spacer()
-
-            // Search button
-            Button(action: {
-                withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                    isExpanded = true
-                }
-            }) {
-                Text("Search")
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 15)
+            // Route info with icons
+                    HStack(spacing: 4) {
+                        Text("\(viewModel.originCode) - \(viewModel.destinationCode)")
+                            .matchedGeometryEffect(id: "routeText", in: animation)
+                            .font(.system(size: 16, weight: .medium))
+                        
+                        Text("· \(viewModel.formatTripDate())")
+                            .matchedGeometryEffect(id: "dateText", in: animation)
+                            .font(.system(size: 14))
+                            .foregroundColor(.gray)
+                    }
+                    .padding(.leading, 10)
                     .padding(.vertical, 5)
-            }
-            .background(Color.orange)
-            .foregroundColor(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-            .matchedGeometryEffect(id: "searchButton", in: animation)
-        }
+                    .matchedGeometryEffect(id: "leftContent", in: animation)
+
+                    Spacer()
+
+                    // Search button with modified left corners
+                    Button(action: {
+                        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+                            isExpanded = true
+                        }
+                    }) {
+                        Text("Search")
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 15)
+                            .padding(.vertical, 5)
+                    }
+                    .background(Color.orange)
+                    .clipShape(
+                        CustomRoundedRectangle(
+                            cornerRadius: 20,
+                            corners: [.topRight, .bottomRight] // Full radius on right side
+                        )
+                    )
+                    .clipShape(
+                        CustomRoundedRectangle(
+                            cornerRadius: 5, // Reduced radius on left side
+                            corners: [.topLeft, .bottomLeft]
+                        )
+                    )
+                    .foregroundColor(.white)
+                    .matchedGeometryEffect(id: "searchButton", in: animation)
+                }
         .padding(.vertical, 8)
         .padding(.horizontal, 10)
         .background(
@@ -95,3 +122,19 @@ extension SearchViewModel {
 }
 
 
+struct CollapsibleSearchInput_Previews: PreviewProvider {
+    struct PreviewWrapper: View {
+        @State private var isExpanded = false
+
+        var body: some View {
+            CollapsibleSearchInput(isExpanded: $isExpanded)
+                .padding()
+                .background(Color(.systemGroupedBackground))
+        }
+    }
+
+    static var previews: some View {
+        PreviewWrapper()
+            .previewLayout(.sizeThatFits)
+    }
+}
