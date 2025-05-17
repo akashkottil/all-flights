@@ -47,6 +47,8 @@ struct HomeView: View {
                         // input box
                         SearchInput()
                         
+                        
+                        
                         // heading
                         HStack{
                             Text("Recent Search")

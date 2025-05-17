@@ -23,7 +23,7 @@ class SearchViewModel: ObservableObject {
     @Published var directFlightsOnly: Bool = false
     
     // Multi-city trips
-    @Published var trips: [Trip] = [Trip.createDefault()]
+    @Published var trips: [Trip] = [Trip.createDefault(), Trip.createDefault()]
     
     // UI state
     @Published var isLocationSheetOpen: Bool = false

@@ -55,7 +55,7 @@ struct MultiCityView: View {
                 action: { viewModel.openLocationSheet(isOrigin: true, tripIndex: index) }
             )
             
-            Divider().padding(.horizontal, 20)
+            Divider().padding(.leading, 50)
 //                .overlay(
 //                    // Swap button for multi-city
 //                    Button(action: {
@@ -80,7 +80,7 @@ struct MultiCityView: View {
                 action: { viewModel.openLocationSheet(isOrigin: false, tripIndex: index) }
             )
             
-            Divider().padding(.horizontal, 20)
+            Divider().padding(.leading, 50)
             
             // Date
             HStack {
@@ -97,7 +97,7 @@ struct MultiCityView: View {
             .padding()
             .background(Color.white)
             
-            Divider().padding(.horizontal, 20)
+            Divider().padding(.leading, 50)
         }
     }
 }
