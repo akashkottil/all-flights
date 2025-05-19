@@ -14,11 +14,16 @@ struct SearchInput: View {
             TripTypeSelector(viewModel: viewModel, namespace: animation)
             
             // Selected trip view
-            if viewModel.tripType == .multiCity {
-                MultiCityView(viewModel: viewModel)
-            } else {
-                SingleTripView(viewModel: viewModel)
+            ZStack {
+                if viewModel.tripType == .multiCity {
+                    MultiCityView(viewModel: viewModel)
+                        .transition(.opacity)
+                } else {
+                    SingleTripView(viewModel: viewModel)
+                        .transition(.opacity)
+                }
             }
+            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: viewModel.tripType)
             
             Divider().padding(.leading, 50)
             
@@ -100,6 +105,8 @@ struct SearchInput: View {
             PassengersAndClassSelector(viewModel: viewModel)
                 .edgesIgnoringSafeArea(.all)
         }
+        // Add animation modifier to the entire view
+        .animation(.spring(response: 0.3, dampingFraction: 0.75, blendDuration: 0.1), value: viewModel.tripType)
     }
 }
 
@@ -153,3 +160,13 @@ struct SearchInput_Previews: PreviewProvider {
             .background(Color.blue.opacity(0.1))
     }
 }
+
+// Preview
+//struct SearchInput_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SearchInput()
+//            .previewLayout(.sizeThatFits)
+//            .padding()
+//            .background(Color.blue.opacity(0.1))
+//    }
+//}
